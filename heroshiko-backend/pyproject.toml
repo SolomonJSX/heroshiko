@@ -1,0 +1,93 @@
+[project]
+name = "heroshiko"
+version = "0.1.0"
+description = "High-fidelity AI portrait transformation and scene transfer pipeline on RTX 3060"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Heroshiko Team" }
+]
+dependencies = [
+    "torch>=2.4.0",
+    "torchvision>=0.19.0",
+    "diffusers>=0.30.0",
+    "transformers>=4.44.0",
+    "accelerate>=0.34.0",
+    "safetensors>=0.4.4",
+    "opencv-python>=4.10.0.84",
+    "pillow>=10.4.0",
+    "numpy>=1.26.4",
+    "controlnet-aux>=0.0.9",
+    "insightface>=0.7.3",
+    "onnxruntime-gpu>=1.19.0",
+    "pydantic>=2.8.0",
+    "pydantic-settings>=2.4.0",
+    "pyyaml>=6.0.2",
+    "loguru>=0.7.2",
+    "gradio>=6.26.0",
+    "peft>=0.20.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.6.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/heroshiko"]
+
+# ----------------------------------------------------------------------
+# RUFF CONFIGURATION
+# ----------------------------------------------------------------------
+[tool.ruff]
+# Целевая версия Python
+target-version = "py311"
+line-length = 100
+indent-width = 4
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# Базовый набор правил:
+# E/W: pycodestyle (ошибки оформления и предупреждения)
+# F: Pyflakes (неиспользуемые импорты, неопределенные переменные)
+# I: isort (автоматическая сортировка импортов)
+# B: flake8-bugbear (типичные логические баги)
+# UP: pyupgrade (модернизация синтаксиса до Python 3.11+)
+select = ["E", "W", "F", "I", "B", "UP"]
+ignore = [
+    "E501",  # Перенос длинных строк контролируется форматтером
+    "B008",  # Вызовы функций в аргументах по умолчанию (часто нужно для Pydantic)
+]
+
+# Исключения для тестов
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B018", "B011"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+# ----------------------------------------------------------------------
+# PYTEST CONFIGURATION
+# ----------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = [
+    "-ra",
+    "-q",
+    "--strict-markers",
+    "--import-mode=importlib",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning:torchvision",
+]

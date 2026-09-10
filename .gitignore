@@ -1,0 +1,85 @@
+# Environments and secrets
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python test, lint & type checking caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.nox/
+.tox/
+
+# Node.js / Frontend (if added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.next/
+out/
+
+# Large files & Model weights
+weights/
+**/weights/
+*.pt
+*.pth
+*.bin
+*.onnx
+*.safetensors
+*.zip
+*.tar.gz
+
+# Logs & temp
+*.log
+logs/
+temp/
+tmp/
+.cache/
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating System
+.DS_Store
+Thumbs.db
+Desktop.ini

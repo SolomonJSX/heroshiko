@@ -1,0 +1,33 @@
+presets:
+  dubai_luxury:
+    title: "Роскошный Дубай"
+    prompt: >
+      a cinematic full-body photo of a person standing on a luxury yacht deck in Dubai Marina, 
+      Burj Al Arab in the background, golden hour, warm sunset sunlight, reflections on water, 
+      wearing modern elegant summer resort attire, shot on 35mm lens, photorealistic, 8k uhd
+    negative_prompt: >
+      blurry, distorted face, bad eyes, unnatural pose, low resolution, cartoon, 3d render, oversaturated
+    control_strength: 0.75
+    denoising_strength: 0.90
+
+  paris_evening:
+    title: "Парижский вечер"
+    prompt: >
+      a high-end street portrait of a person in Paris, Eiffel tower glowing in evening background, 
+      charming cobblestone street, cozy street cafe lights, wearing stylish autumn trench coat, 
+      soft cinematic bokeh, ultra-detailed skin texture, editorial photography
+    negative_prompt: >
+      blurry, plastic skin, bad anatomy, deformed hands, oversaturated, amateur photo
+    control_strength: 0.70
+    denoising_strength: 0.88
+
+  fantasy_realm:
+    title: "Сказочный мир"
+    prompt: >
+      an epic fantasy portrait of a person in a glowing bioluminescent elven forest, 
+      floating ethereal crystals, majestic enchanted atmosphere, wearing ornate fantasy armor with gold trims, 
+      volumetric mystical fog, hyperrealistic, masterwork
+    negative_prompt: >
+      bad anatomy, low quality, artifacts, 3d render, ugly, cropped
+    control_strength: 0.80
+    denoising_strength: 0.95
