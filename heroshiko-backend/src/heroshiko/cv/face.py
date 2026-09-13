@@ -20,6 +20,14 @@ class FaceIdentity:
     bbox: np.ndarray
     # Ключевые точки лица (5 landmarks)
     landmarks: np.ndarray
+    # Исходный объект лица InsightFace (для Face Swapper)
+    raw_face: object = None
+    # Автоматически определенный пол ("man" или "woman")
+    gender: str = "man"
+    # Автоматически определенный возраст
+    age: int = 28
+    # Общее количество обнаруженных лиц на фото
+    total_faces_count: int = 1
 
 
 class FaceIdentityExtractor:
@@ -54,6 +62,8 @@ class FaceIdentityExtractor:
         if not faces:
             return None
 
+        total_faces = len(faces)
+
         # Выбираем самое крупное лицо на фото (по площади рамки)
         main_face = max(
             faces,
@@ -72,9 +82,19 @@ class FaceIdentityExtractor:
         aligned_rgb = cv2.cvtColor(aligned_bgr, cv2.COLOR_BGR2RGB)
         aligned_pil = Image.fromarray(aligned_rgb)
 
+        # 3. Извлечение анатомических атрибутов (пол и возраст)
+        sex = getattr(main_face, "sex", None)
+        gender_num = getattr(main_face, "gender", 1)
+        gender_str = "man" if sex == "M" or gender_num == 1 else "woman"
+        age_num = int(getattr(main_face, "age", 28))
+
         return FaceIdentity(
             embedding=embed_tensor,
             aligned_face_chip=aligned_pil,
             bbox=main_face.bbox.astype(int),
             landmarks=main_face.kps,
+            raw_face=main_face,
+            gender=gender_str,
+            age=age_num,
+            total_faces_count=total_faces,
         )

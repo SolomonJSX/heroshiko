@@ -1,1 +1,1 @@
-"""Computer vision modules for heroshiko."""
+"""Computer vision modules for heroshiko."""

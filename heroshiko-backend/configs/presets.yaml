@@ -1,33 +1,36 @@
 presets:
   dubai_luxury:
     title: "Роскошный Дубай"
+    cover_image: "dubai_luxury.jpg"
     prompt: >
-      a cinematic full-body photo of a person standing on a luxury yacht deck in Dubai Marina, 
-      Burj Al Arab in the background, golden hour, warm sunset sunlight, reflections on water, 
-      wearing modern elegant summer resort attire, shot on 35mm lens, photorealistic, 8k uhd
+      RAW 35mm photo, medium shot of a person in a beige linen suit with open collar white shirt, standing at yacht railing in Dubai Marina, golden hour sunset, Burj Al Arab and skyline in background bokeh, dslr, realistic skin
     negative_prompt: >
-      blurry, distorted face, bad eyes, unnatural pose, low resolution, cartoon, 3d render, oversaturated
-    control_strength: 0.75
-    denoising_strength: 0.90
+      (hood, hijab:1.4), (close up, cropped:1.4), (cleavage, nsfw:1.4), (spots, burn:1.4), (anime, 3d:1.3),
+      (oversaturated:1.2), blurry, bad anatomy, deformed hands, extra limbs, poorly drawn face, plastic skin
 
-  paris_evening:
-    title: "Парижский вечер"
+  paris_cafe:
+    title: "Парижское кафе"
+    cover_image: "paris_cafe.jpg"
     prompt: >
-      a high-end street portrait of a person in Paris, Eiffel tower glowing in evening background, 
-      charming cobblestone street, cozy street cafe lights, wearing stylish autumn trench coat, 
-      soft cinematic bokeh, ultra-detailed skin texture, editorial photography
+      RAW 35mm photo, medium shot of a person sitting outdoors at a round marble table of a Paris cafe, stylish camel wool coat, holding coffee cup, croissant on table, Haussmann street background bokeh, morning sunlight, dslr, realistic skin
     negative_prompt: >
-      blurry, plastic skin, bad anatomy, deformed hands, oversaturated, amateur photo
-    control_strength: 0.70
-    denoising_strength: 0.88
+      (hood, hijab:1.4), (close up, cropped:1.4), (cleavage, nsfw:1.4), (spots, burn:1.4), (anime, 3d:1.3),
+      blurry, bad anatomy, deformed hands, extra limbs, poorly drawn face, plastic skin
 
-  fantasy_realm:
-    title: "Сказочный мир"
+  kpop_idol:
+    title: "K-Pop Айдол (Seoul Stage)"
+    cover_image: "kpop_idol.jpg"
     prompt: >
-      an epic fantasy portrait of a person in a glowing bioluminescent elven forest, 
-      floating ethereal crystals, majestic enchanted atmosphere, wearing ornate fantasy armor with gold trims, 
-      volumetric mystical fog, hyperrealistic, masterwork
+      RAW 35mm photo, medium shot of a person as a lead K-pop idol on a mega concert stage, black and silver embroidered stage blazer, holding microphone, volumetric concert lasers, stage haze, confetti, arena crowd, dslr, 8k
     negative_prompt: >
-      bad anatomy, low quality, artifacts, 3d render, ugly, cropped
-    control_strength: 0.80
-    denoising_strength: 0.95
+      (hood, hijab:1.4), (close up, cropped:1.4), (cleavage, nsfw:1.4), (spots, burn:1.4), (anime, 3d:1.3),
+      blurry, bad anatomy, deformed hands, extra limbs, poorly drawn face, plastic skin
+
+  kpop_group:
+    title: "K-Pop Группа (Live Stage)"
+    cover_image: "kpop_group.jpg"
+    prompt: >
+      RAW 35mm photo, wide medium shot of a K-pop idol group performing on a mega concert stage, performers in coordinated black and silver stage outfits, a person smiling as lead vocalist in center, neon laser show, fireworks sparks, stadium crowd, dslr
+    negative_prompt: >
+      (solo, single:1.7), (close up, cropped:1.5), (cleavage, nsfw:1.4), (anime, 3d:1.3),
+      blurry, bad anatomy, deformed hands, extra limbs, poorly drawn face, plastic skin

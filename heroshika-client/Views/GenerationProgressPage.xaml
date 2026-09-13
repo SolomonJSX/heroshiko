@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:heroshika_client.ViewModels"
+             x:Class="heroshika_client.Views.GenerationProgressPage"
+             x:DataType="vm:GenerationProgressViewModel"
+             BackgroundColor="{StaticResource DarkBackground}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <!-- Header -->
+            <Border BackgroundColor="{StaticResource Surface}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="16, 12">
+                <Grid ColumnDefinitions="*, Auto">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="ШАГ 4 ИЗ 4: РЕЗУЛЬТАТ"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Secondary}" />
+                        <Label Text="{Binding StatusText}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}" />
+                    </VerticalStackLayout>
+                    <Label Grid.Column="1"
+                           Text="✨"
+                           FontSize="24"
+                           VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <!-- GENERATING IN PROGRESS STATE -->
+            <VerticalStackLayout Spacing="24" IsVisible="{Binding IsGenerating}" Margin="0, 40, 0, 0">
+                <ActivityIndicator IsRunning="True"
+                                   Color="{StaticResource Primary}"
+                                   WidthRequest="64"
+                                   HeightRequest="64"
+                                   HorizontalOptions="Center" />
+
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="{Binding StatusText}"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding StatusDetail}"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Progress Bar -->
+                <VerticalStackLayout Spacing="8" Margin="20, 0">
+                    <ProgressBar Progress="{Binding ProgressDouble}"
+                                 ProgressColor="{StaticResource Primary}"
+                                 HeightRequest="10" />
+                    <Label Text="{Binding Progress, StringFormat='{0}%'}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- COMPLETED STATE: FINAL SHOWCASE -->
+            <VerticalStackLayout Spacing="16" IsVisible="{Binding IsCompleted}">
+                <!-- High Resolution Result Image Card -->
+                <Border BackgroundColor="{StaticResource CardBackground}"
+                        Stroke="{StaticResource Primary}"
+                        StrokeThickness="1.5"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="0">
+                    <Grid RowDefinitions="Auto, Auto">
+                        <Image Source="{Binding ResultImageUrl}"
+                               Aspect="AspectFit"
+                               MinimumHeightRequest="360" />
+
+                        <!-- Badge for Elapsed Time -->
+                        <Border Grid.Row="0"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                                Margin="12"
+                                BackgroundColor="#B00B0E17"
+                                Stroke="{StaticResource Secondary}"
+                                StrokeShape="RoundRectangle 8"
+                                Padding="8, 4">
+                            <Label Text="{Binding ElapsedSeconds, StringFormat='⚡ {0:F1} сек.'}"
+                                   FontSize="11"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Accent}" />
+                        </Border>
+
+                        <!-- Face Chip Insight -->
+                        <HorizontalStackLayout Grid.Row="1"
+                                               Padding="16"
+                                               Spacing="12"
+                                               BackgroundColor="{StaticResource Surface}">
+                            <Image Source="{Binding FaceImageUrl}"
+                                   WidthRequest="48"
+                                   HeightRequest="48"
+                                   Aspect="AspectFill" />
+                            <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                                <Label Text="100% перенос лица (INSwapper + CodeFormer)"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}" />
+                                <Label Text="Биометрия и поры кожи сохранены без артефактов"
+                                       FontSize="11"
+                                       TextColor="{StaticResource Gray400}" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Action Buttons -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                    <Button Grid.Column="0"
+                            Text="💾 Сохранить"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="{StaticResource PrimaryDarkText}"
+                            CornerRadius="12"
+                            HeightRequest="48"
+                            Command="{Binding SaveImageCommand}" />
+
+                    <Button Grid.Column="1"
+                            Text="📤 Поделиться"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            HeightRequest="48"
+                            Command="{Binding ShareImageCommand}" />
+                </Grid>
+
+                <Button Text="🔄 Создать новую фотосессию"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Surface}"
+                        BorderColor="{StaticResource CardBorder}"
+                        BorderWidth="1"
+                        TextColor="{StaticResource White}"
+                        CornerRadius="12"
+                        HeightRequest="46"
+                        Command="{Binding NewPhotoshootCommand}" />
+            </VerticalStackLayout>
+
+            <!-- FAILED STATE -->
+            <VerticalStackLayout Spacing="16" IsVisible="{Binding IsFailed}" Margin="0, 40, 0, 0">
+                <Label Text="❌" FontSize="48" HorizontalOptions="Center" />
+                <Label Text="Ошибка генерации"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Error}"
+                       HorizontalOptions="Center" />
+                <Label Text="{Binding StatusDetail}"
+                       FontSize="13"
+                       TextColor="{StaticResource Gray300}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+
+                <Button Text="Попробовать снова"
+                        FontSize="14"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="{StaticResource PrimaryDarkText}"
+                        CornerRadius="10"
+                        HeightRequest="46"
+                        Command="{Binding StartProcessCommand}"
+                        Margin="40, 20, 40, 0" />
+
+                <Button Text="В главное меню"
+                        FontSize="13"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Gray400}"
+                        Command="{Binding NewPhotoshootCommand}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:heroshika_client.ViewModels"
+             x:Class="heroshika_client.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             BackgroundColor="{StaticResource DarkBackground}"
+             Title="Настройки сервера">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <!-- Header Card -->
+            <Border BackgroundColor="{StaticResource Surface}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16">
+                <HorizontalStackLayout Spacing="12">
+                    <Image Source="heroshiko_logo.png"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           Aspect="AspectFit" />
+                    <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="Heroshiko AI Server"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}" />
+                        <Label Text="Конфигурация подключения API"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray400}" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- URL Input Card -->
+            <Border BackgroundColor="{StaticResource CardBackground}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="URL адрес сервера:"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+
+                    <Border BackgroundColor="{StaticResource Surface}"
+                            Stroke="{StaticResource CardBorder}"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="10, 4">
+                        <Entry Text="{Binding ServerUrl}"
+                               TextColor="{StaticResource White}"
+                               Placeholder="http://localhost:8000"
+                               PlaceholderColor="{StaticResource Gray500}"
+                               Keyboard="Url" />
+                    </Border>
+
+                    <!-- Quick Select Modes -->
+                    <Label Text="Быстрый выбор режима:" FontSize="11" TextColor="{StaticResource Gray400}" />
+                    <Grid ColumnDefinitions="*, *, *" ColumnSpacing="6">
+                        <Button Grid.Column="0"
+                                Text="🌍 Облако"
+                                FontSize="11"
+                                FontAttributes="Bold"
+                                BackgroundColor="{StaticResource Surface}"
+                                BorderColor="{StaticResource CardBorder}"
+                                BorderWidth="1"
+                                TextColor="{StaticResource White}"
+                                HeightRequest="36"
+                                Padding="0"
+                                CornerRadius="6"
+                                Command="{Binding SelectCloudCommand}" />
+                        <Button Grid.Column="1"
+                                Text="📶 Wi-Fi"
+                                FontSize="11"
+                                FontAttributes="Bold"
+                                BackgroundColor="{StaticResource Surface}"
+                                BorderColor="{StaticResource CardBorder}"
+                                BorderWidth="1"
+                                TextColor="{StaticResource White}"
+                                HeightRequest="36"
+                                Padding="0"
+                                CornerRadius="6"
+                                Command="{Binding SelectLanCommand}" />
+                        <Button Grid.Column="2"
+                                Text="🔌 USB"
+                                FontSize="11"
+                                FontAttributes="Bold"
+                                BackgroundColor="{StaticResource Surface}"
+                                BorderColor="{StaticResource CardBorder}"
+                                BorderWidth="1"
+                                TextColor="{StaticResource White}"
+                                HeightRequest="36"
+                                Padding="0"
+                                CornerRadius="6"
+                                Command="{Binding SelectUsbCommand}" />
+                    </Grid>
+
+                    <!-- Auto Detect Button -->
+                    <Button Text="⚡ Автоматический поиск сервера"
+                            FontSize="12"
+                            FontAttributes="Bold"
+                            BackgroundColor="#1E293B"
+                            BorderColor="{StaticResource Primary}"
+                            BorderWidth="1"
+                            TextColor="{StaticResource Primary}"
+                            HeightRequest="40"
+                            CornerRadius="8"
+                            Command="{Binding AutoDetectCommand}"
+                            IsEnabled="{Binding IsNotBusy}" />
+
+                    <!-- Action Buttons -->
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0, 4, 0, 0">
+                        <Button Grid.Column="0"
+                                Text="🔍 Проверить"
+                                FontSize="13"
+                                FontAttributes="Bold"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource PrimaryDarkText}"
+                                HeightRequest="44"
+                                CornerRadius="8"
+                                Command="{Binding TestConnectionCommand}"
+                                IsEnabled="{Binding IsNotBusy}" />
+
+                        <Button Grid.Column="1"
+                                Text="💾 Сохранить"
+                                FontSize="13"
+                                FontAttributes="Bold"
+                                BackgroundColor="{StaticResource Secondary}"
+                                TextColor="{StaticResource White}"
+                                HeightRequest="44"
+                                CornerRadius="8"
+                                Command="{Binding SaveSettingsCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Diagnostics Card -->
+            <Border BackgroundColor="{StaticResource CardBackground}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16"
+                    IsVisible="{Binding TestStatus.Length}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Статус подключения:"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+
+                    <Label Text="{Binding TestStatus}"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray200}" />
+
+                    <Label Text="{Binding GpuInfo}"
+                           FontSize="12"
+                           TextColor="{StaticResource Primary}"
+                           IsVisible="{Binding GpuInfo.Length}" />
+
+                    <Label Text="{Binding VramInfo}"
+                           FontSize="12"
+                           TextColor="{StaticResource SecondaryDarkText}"
+                           IsVisible="{Binding VramInfo.Length}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Reset Button -->
+            <Button Text="Сбросить адрес по умолчанию"
+                    FontSize="12"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Gray400}"
+                    Command="{Binding ResetDefaultCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

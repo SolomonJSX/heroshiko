@@ -1,0 +1,1 @@
+"""Heroshiko API package."""

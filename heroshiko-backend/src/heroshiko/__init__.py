@@ -1,1 +1,0 @@
-"""Heroshiko package."""

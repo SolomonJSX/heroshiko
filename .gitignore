@@ -65,6 +65,33 @@ weights/
 *.zip
 *.tar.gz
 
+# .NET / MAUI
+bin/
+obj/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Mobile builds & Test artifacts
+*.apk
+*.aab
+ui.xml
+picker.xml
+Новый текстовый документ.txt
+
+# Backend Storage
+storage/uploads/*
+storage/outputs/*
+heroshiko-backend/storage/uploads/*
+heroshiko-backend/storage/outputs/*
+!storage/uploads/.gitkeep
+!storage/outputs/.gitkeep
+!heroshiko-backend/storage/uploads/.gitkeep
+!heroshiko-backend/storage/outputs/.gitkeep
+
 # Logs & temp
 *.log
 logs/
@@ -83,3 +110,4 @@ tmp/
 .DS_Store
 Thumbs.db
 Desktop.ini
+

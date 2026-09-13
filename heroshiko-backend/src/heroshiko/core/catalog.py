@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import yaml
 from pydantic import BaseModel
 
@@ -9,6 +8,7 @@ class ThemePreset(BaseModel):
     title: str
     prompt: str
     negative_prompt: str
+    cover_image: str | None = None
     control_strength: float = 0.75
     denoising_strength: float = 0.65
 

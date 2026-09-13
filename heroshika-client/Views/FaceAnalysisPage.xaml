@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:heroshika_client.ViewModels"
+             x:Class="heroshika_client.Views.FaceAnalysisPage"
+             x:DataType="vm:FaceAnalysisViewModel"
+             BackgroundColor="{StaticResource DarkBackground}"
+             Shell.NavBarIsVisible="False"
+             Title="Селфи и Анализ">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertedBoolConverter xmlns:converters="clr-namespace:heroshika_client.Converters" x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <!-- Header & Step tracker -->
+            <Border BackgroundColor="{StaticResource Surface}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="14, 12">
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Button Grid.Column="0"
+                            Text="⬅"
+                            FontSize="18"
+                            TextColor="{StaticResource Primary}"
+                            BackgroundColor="Transparent"
+                            Command="{Binding GoBackCommand}"
+                            VerticalOptions="Center"
+                            Padding="0"
+                            WidthRequest="36"
+                            HeightRequest="36"
+                            Margin="0, 0, 8, 0" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="ШАГ 2 ИЗ 4: СЕЛФИ"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Secondary}" />
+                        <Label Text="{Binding SelectedPresetTitle}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}" />
+                    </VerticalStackLayout>
+                    <Label Grid.Column="2"
+                           Text="🎭"
+                           FontSize="24"
+                           VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Instructions -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Загрузите вашу фотографию"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Для наилучшего сходства используйте четкое фото лица анфас при хорошем освещении"
+                       FontSize="13"
+                       TextColor="{StaticResource Gray400}" />
+            </VerticalStackLayout>
+
+            <!-- Image Upload / Preview Area -->
+            <Border BackgroundColor="{StaticResource CardBackground}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeThickness="2"
+                    StrokeDashArray="4, 4"
+                    StrokeShape="RoundRectangle 16"
+                    HeightRequest="280"
+                    Padding="0">
+                <Grid>
+                    <!-- Empty State Placeholder -->
+                    <VerticalStackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="12"
+                                         IsVisible="{Binding HasPhoto, Converter={StaticResource InvertedBoolConverter}}">
+                        <Label Text="📸"
+                               FontSize="48"
+                               HorizontalOptions="Center" />
+                        <Label Text="Нажмите для выбора фото"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray300}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Поддерживаются JPG, PNG, WEBP"
+                               FontSize="11"
+                               TextColor="{StaticResource Gray500}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Preview Image -->
+                    <Image Source="{Binding PreviewImage}"
+                           Aspect="AspectFit"
+                           IsVisible="{Binding HasPhoto}" />
+
+                    <!-- Analyzing Overlay -->
+                    <Grid BackgroundColor="#990B0E17"
+                          IsVisible="{Binding IsAnalyzing}">
+                        <VerticalStackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="12">
+                            <ActivityIndicator IsRunning="True"
+                                               Color="{StaticResource Primary}"
+                                               WidthRequest="48"
+                                               HeightRequest="48" />
+                            <Label Text="InsightFace анализирует биометрию..."
+                                   TextColor="{StaticResource Primary}"
+                                   FontAttributes="Bold"
+                                   FontSize="13" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Action Buttons for Image Picking -->
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                <Button Grid.Column="0"
+                        Text="📁 Выбрать файл"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Surface}"
+                        BorderColor="{StaticResource CardBorder}"
+                        BorderWidth="1"
+                        TextColor="{StaticResource White}"
+                        CornerRadius="10"
+                        HeightRequest="46"
+                        Command="{Binding PickPhotoCommand}" />
+
+                <Button Grid.Column="1"
+                        Text="📷 Сделать фото"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Surface}"
+                        BorderColor="{StaticResource CardBorder}"
+                        BorderWidth="1"
+                        TextColor="{StaticResource White}"
+                        CornerRadius="10"
+                        HeightRequest="46"
+                        Command="{Binding TakePhotoCommand}" />
+            </Grid>
+
+            <!-- Status Banner -->
+            <Border BackgroundColor="{StaticResource Surface}"
+                    Stroke="{StaticResource CardBorder}"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="14, 10">
+                <Label Text="{Binding StatusMessage}"
+                       FontSize="13"
+                       TextColor="{StaticResource Gray300}"
+                       HorizontalOptions="Center" />
+            </Border>
+
+            <!-- Biometric Analysis Results Panel -->
+            <Border BackgroundColor="{StaticResource Surface}"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16"
+                    IsVisible="{Binding AnalysisResult.FaceDetected}">
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Text="👤" FontSize="20" VerticalOptions="Center" Margin="0, 0, 8, 0" />
+                        <Label Grid.Column="1"
+                               Text="Результаты биометрического анализа"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center" />
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource CardBorder}" />
+
+                    <!-- Metrics Grid -->
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" RowSpacing="10" ColumnSpacing="10">
+                        <!-- Gender & Age -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="2">
+                            <Label Text="Пол и возраст" FontSize="11" TextColor="{StaticResource Gray400}" />
+                            <Label Text="{Binding AnalysisResult.GenderRu}"
+                                   FontSize="13" FontAttributes="Bold" TextColor="{StaticResource White}" />
+                            <Label Text="{Binding AnalysisResult.Age, StringFormat='Возраст: {0} лет'}"
+                                   FontSize="12" TextColor="{StaticResource Gray300}" />
+                        </VerticalStackLayout>
+
+                        <!-- Body Build -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2">
+                            <Label Text="Комплекция" FontSize="11" TextColor="{StaticResource Gray400}" />
+                            <Label Text="{Binding AnalysisResult.BuildLabelRu}"
+                                   FontSize="13" FontAttributes="Bold" TextColor="{StaticResource White}" />
+                            <Label Text="{Binding AnalysisResult.BuildType, StringFormat='({0})'}"
+                                   FontSize="11" TextColor="{StaticResource Gray400}" />
+                        </VerticalStackLayout>
+
+                        <!-- Hair -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="2">
+                            <Label Text="Детектированные волосы" FontSize="11" TextColor="{StaticResource Gray400}" />
+                            <Label Text="{Binding AnalysisResult.SummaryText}"
+                                   FontSize="12" TextColor="{StaticResource SecondaryDarkText}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Proceed Button -->
+            <Button Text="Настроить стиль и детали ➔"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="{StaticResource PrimaryDarkText}"
+                    CornerRadius="12"
+                    HeightRequest="52"
+                    IsEnabled="{Binding IsReadyToTune}"
+                    Command="{Binding ProceedToTuningCommand}"
+                    Margin="0, 10, 0, 20" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

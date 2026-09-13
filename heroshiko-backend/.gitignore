@@ -1,13 +1,15 @@
-# Python-generated files
+.env
+.venv/
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv
-
-# Weights & models
+*.pyc
 weights/
+**/weights/
+*.pt
+*.pth
+*.onnx
+*.safetensors
+storage/uploads/*
+storage/outputs/*
+!storage/uploads/.gitkeep
+!storage/outputs/.gitkeep
+
